@@ -1,55 +1,38 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:notase/routes/home.dart';
+import 'package:notase/routes/profile.dart';
+import 'package:notase/routes/simulados.dart';
 
-void main() {
-  runApp(const MyApp());
+import 'routes/signin.dart';
+
+Future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
+  runApp(const NotaSE());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class NotaSE extends StatelessWidget {
+  const NotaSE({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title:  'NotaSE',
+      title: 'NotaSE',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.green,
+        primarySwatch: Colors.orange,
+        brightness: Brightness.dark,
       ),
-      home: const MyHomePage(title: 'NotaSE'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Container(
-        child: ListView(
-          //mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            const Text(
-              'Título',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
-            ),
-            Text(
-              'Email',
-              style: TextStyle(color: Colors.grey, fontSize: 14.0),
-            ),
-          ],
-        ),
-      ),
+      initialRoute: FirebaseAuth.instance.currentUser == null ? '/signin' : '/',
+      routes: {
+        '/': (context) => const HomeRoute(),
+        '/signin': (context) => const SignInRoute(),
+        '/profile': (context) => ProfileRoute(),
+        '/simulados':(context) => const SimuladosRoute()
+      },
     );
   }
 }
