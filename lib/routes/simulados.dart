@@ -1,183 +1,76 @@
+import 'dart:convert';
+
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:notase/models/Aluno.dart';
+import 'package:notase/widgets/notas.dart';
 import 'package:flutter/material.dart';
+import 'package:notase/models/AlunoNota.dart';
 import 'package:notase/res/custom_colors.dart';
 import 'package:notase/widgets/appbar.dart';
 
+import 'package:http/http.dart' as http;
+import 'package:notase/widgets/ranking.dart';
+import 'package:notase/widgets/redacao.dart';
+import 'package:notase/widgets/simulador.dart';
+
 class SimuladosRoute extends StatefulWidget {
-  const SimuladosRoute({Key? key}) : super(key: key);
+  final String id;
+  final String title;
+
+  SimuladosRoute({Key? key, required this.id, required this.title})
+      : super(key: key);
 
   @override
   _SimuladosRouteState createState() => _SimuladosRouteState();
 }
 
+class SimuladosArguments {
+  final String id;
+  final String title;
+
+  SimuladosArguments(this.id, this.title);
+}
+
+Future<Aluno> fetchSimulados(String id) async {
+  User? user = FirebaseAuth.instance.currentUser;
+  String token = "";
+  if (user != null) {
+    token = await user.getIdToken();
+  }
+
+  final response = await http.get(
+      Uri.parse("http://10.0.2.2:8080/me/simulados/${id}"),
+      headers: {'AuthToken': token});
+
+  if (response.statusCode == 200) {
+    //print(jsonDecode(response.body)['notas']);
+    try {
+      return Aluno.fromJson(jsonDecode(response.body));
+    } catch(error) {
+      throw Exception(error);
+    }
+  } else {
+    throw Exception('Erro ao buscar simulados');
+  }
+}
+
 class _SimuladosRouteState extends State<SimuladosRoute> {
-  static final List<Widget> _pages = <Widget>[
-    Column(children: [
-      const Padding(
-        padding: EdgeInsets.only(bottom: 30),
-        child: Text(
-          "Suas Notas",
-          textAlign: TextAlign.left,
-          style: TextStyle(
-              fontSize: 30,
-              color: CustomColors.navy,
-              fontWeight: FontWeight.w900),
-        ),
-      ),
-      const Padding(
-        padding: EdgeInsets.only(bottom: 10),
-        child: Text(
-          "TRI",
-          style: TextStyle(
-              fontSize: 25,
-              color: CustomColors.navy,
-              fontWeight: FontWeight.bold),
-        ),
-      ),
-      Row(
-        children: const [
-          Text(
-            "Linguagens e suas Tecnologias",
-            style: TextStyle(color: CustomColors.navy),
-          ),
-          Spacer(),
-          Text(
-            "552,8",
-            style: TextStyle(color: CustomColors.navy),
-          ),
-        ],
-      ),
-      const Divider(color: CustomColors.navy),
-      Row(
-        children: const [
-          Text(
-            "Ciências Humanas e suas Tecnologias",
-            style: TextStyle(color: CustomColors.navy),
-          ),
-          Spacer(),
-          Text(
-            "552,8",
-            style: TextStyle(color: CustomColors.navy),
-          ),
-        ],
-      ),
-      const Divider(color: CustomColors.navy),
-      Row(
-        children: const [
-          Text(
-            "Ciências da Natureza e suas Tecnologias",
-            style: TextStyle(color: CustomColors.navy),
-          ),
-          Spacer(),
-          Text(
-            "552,8",
-            style: TextStyle(color: CustomColors.navy),
-          ),
-        ],
-      ),
-      const Divider(color: CustomColors.navy),
-      Row(
-        children: const [
-          Text(
-            "Matemática e suas Tecnologias",
-            style: TextStyle(color: CustomColors.navy),
-          ),
-          Spacer(),
-          Text(
-            "552,8",
-            style: TextStyle(color: CustomColors.navy),
-          ),
-        ],
-      ),
-      const Padding(
-        padding: EdgeInsets.only(top: 20, bottom: 10),
-        child: Text(
-          "Acertos por Disciplina",
-          style: TextStyle(
-              fontSize: 25,
-              color: CustomColors.navy,
-              fontWeight: FontWeight.bold),
-        ),
-      ),
-      Row(
-        children: const [
-          Text(
-            "Linguagens e suas Tecnologias",
-            style: TextStyle(color: CustomColors.navy),
-          ),
-          Spacer(),
-          Text(
-            "40",
-            style: TextStyle(color: CustomColors.navy),
-          ),
-        ],
-      ),
-      const Divider(color: CustomColors.navy),
-      Row(
-        children: const [
-          Text(
-            "Ciências Humanas e suas Tecnologias",
-            style: TextStyle(color: CustomColors.navy),
-          ),
-          Spacer(),
-          Text(
-            "40",
-            style: TextStyle(color: CustomColors.navy),
-          ),
-        ],
-      ),
-      const Divider(color: CustomColors.navy),
-      Row(
-        children: const [
-          Text(
-            "Ciências da Natureza e suas Tecnologias",
-            style: TextStyle(color: CustomColors.navy),
-          ),
-          Spacer(),
-          Text(
-            "40",
-            style: TextStyle(color: CustomColors.navy),
-          ),
-        ],
-      ),
-      const Divider(color: CustomColors.navy),
-      Row(
-        children: const [
-          Text(
-            "Matemática e suas Tecnologias",
-            style: TextStyle(color: CustomColors.navy),
-          ),
-          Spacer(),
-          Text(
-            "40",
-            style: TextStyle(color: CustomColors.navy),
-          ),
-        ],
-      ),
-    ]),
-    Column(children: const [
-      Text(
-        "Redação",
-        style: TextStyle(
-            fontSize: 30,
-            color: CustomColors.navy,
-            fontWeight: FontWeight.w900),
-      ),
-      SizedBox(height: 8),
-    ]),
-  ];
 
   int _selectedIndex = 0;
+
+  late Future<Aluno> aluno;
 
   @override
   void initState() {
     super.initState();
+    aluno = fetchSimulados(widget.id);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: CustomColors.grey,
-      appBar: CustomAppBar("Simulado 1"),
+      appBar: CustomAppBar(widget.title),
       bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
           showUnselectedLabels: true,
@@ -202,7 +95,32 @@ class _SimuladosRouteState extends State<SimuladosRoute> {
       body: SafeArea(
         child: Padding(
             padding: const EdgeInsets.all(20),
-            child: _pages.elementAt(_selectedIndex)),
+            child: FutureBuilder<Aluno>(
+              future: aluno,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  switch(_selectedIndex) {
+                    case 0:
+                      return NotasWidget(notas: snapshot.data!.notas);
+                    case 1:
+                      return RedacaoWidget(notas: snapshot.data!.notas);
+                    case 2:
+                      return const SimuladorWidget();
+                    case 3:
+                      return RankingWidget(ranking: snapshot.data!.ranking);
+                  }
+                  throw UnimplementedError();
+                } else if (snapshot.hasError) {
+                  return Text('Erro: ${snapshot.error}');
+                } else {
+                  return const Center(
+                    child: CircularProgressIndicator(
+                      color: CustomColors.orange,
+                    ),
+                  );
+                }
+            })
+          ),
       ),
     );
   }

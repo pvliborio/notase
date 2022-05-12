@@ -1,11 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:notase/res/custom_colors.dart';
-import 'package:notase/routes/signin.dart';
 import 'package:notase/utils/auth.dart';
 import 'package:notase/widgets/appbar.dart';
 
 class ProfileRoute extends StatefulWidget {
+  const ProfileRoute({Key? key}) : super(key: key);
 
   @override
   _ProfileRouteState createState() => _ProfileRouteState();
@@ -22,6 +22,11 @@ class _ProfileRouteState extends State<ProfileRoute> {
   @override
   Widget build(BuildContext context) {
     User? _user = FirebaseAuth.instance.currentUser;
+    if(_user == null) {
+      return const Scaffold(
+        backgroundColor: CustomColors.orange,
+      );
+    }
     return Scaffold(
       backgroundColor: CustomColors.grey,
       appBar: CustomAppBar("Seu Perfil"),
@@ -36,12 +41,12 @@ class _ProfileRouteState extends State<ProfileRoute> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Row(),
-              _user!.photoURL != null
+              _user.photoURL != null
                   ? ClipOval(
                       child: Material(
                         color: CustomColors.grey.withOpacity(0.3),
                         child: Image.network(
-                          _user!.photoURL!,
+                          _user.photoURL!,
                           fit: BoxFit.fitHeight,
                         ),
                       ),
@@ -97,12 +102,12 @@ class _ProfileRouteState extends State<ProfileRoute> {
                           _isSigningOut = true;
                         });
                         Authentication auth = Authentication();
-                        Navigator.of(context)
-                            .pushReplacementNamed('/signin');
                         await auth.signOutFromGoogle();
                         setState(() {
                           _isSigningOut = false;
                         });
+                        Navigator.of(context)
+                            .pushReplacementNamed('/signin');
                         
                       },
                       child: const Padding(

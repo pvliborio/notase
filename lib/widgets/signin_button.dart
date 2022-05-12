@@ -38,7 +38,7 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
                 setState(() {
                   _isSigningIn = false;
                 });
-                  Navigator.of(context).pushReplacementNamed("/");
+                  Navigator.of(context).pushNamedAndRemoveUntil("/", (route) => false);
               },
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
