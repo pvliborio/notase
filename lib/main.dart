@@ -19,7 +19,7 @@ class NotaSE extends StatelessWidget {
   const NotaSE({Key? key}) : super(key: key);
 
   Route<dynamic> _getRoute(RouteSettings settings) {
-    switch(settings.name) {
+    switch (settings.name) {
       case '/':
         return _buildRoute(settings, const HomeRoute());
       case '/signin':
@@ -28,18 +28,19 @@ class NotaSE extends StatelessWidget {
         return _buildRoute(settings, const ProfileRoute());
       case '/simulados':
         final args = settings.arguments as SimuladosArguments;
-        return _buildRoute(settings, SimuladosRoute(id: args.id, title: args.title));
+        return _buildRoute(
+            settings, SimuladosRoute(id: args.id, title: args.title));
     }
 
     throw Exception("Not found");
-}
+  }
 
-MaterialPageRoute _buildRoute(RouteSettings settings, Widget builder) {
+  MaterialPageRoute _buildRoute(RouteSettings settings, Widget builder) {
     return MaterialPageRoute(
-        settings: settings,
-        builder: (ctx) => builder,
+      settings: settings,
+      builder: (ctx) => builder,
     );
-}
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,12 +48,10 @@ MaterialPageRoute _buildRoute(RouteSettings settings, Widget builder) {
       title: 'NotaSE',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.orange,
-        brightness: Brightness.dark,
-        textTheme: const TextTheme(
-          bodyText1: TextStyle(color: CustomColors.navy)
-        )
-      ),
+          primarySwatch: Colors.orange,
+          brightness: Brightness.dark,
+          textTheme:
+              const TextTheme(bodyText1: TextStyle(color: CustomColors.navy))),
       initialRoute: FirebaseAuth.instance.currentUser == null ? '/signin' : '/',
       onGenerateRoute: _getRoute,
       // routes: {

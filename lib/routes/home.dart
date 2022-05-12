@@ -56,12 +56,7 @@ class _HomeRouteState extends State<HomeRoute> {
       backgroundColor: CustomColors.grey,
       appBar: CustomAppBar("Seus Simulados"),
       body: SafeArea(
-        child: Padding(
-            padding: const EdgeInsets.only(
-              left: 16.0,
-              right: 16.0,
-              bottom: 20.0,
-            ),
+        child: Container(
             child: FutureBuilder<List<Simulado>>(
               future: simulados,
               builder: (context, snapshot) {
