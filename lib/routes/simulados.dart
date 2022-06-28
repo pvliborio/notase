@@ -4,7 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:notase/models/Aluno.dart';
 import 'package:notase/widgets/notas.dart';
 import 'package:flutter/material.dart';
-import 'package:notase/models/AlunoNota.dart';
 import 'package:notase/res/custom_colors.dart';
 import 'package:notase/widgets/appbar.dart';
 
@@ -13,11 +12,13 @@ import 'package:notase/widgets/ranking.dart';
 import 'package:notase/widgets/redacao.dart';
 import 'package:notase/widgets/simulador.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class SimuladosRoute extends StatefulWidget {
   final String id;
   final String title;
 
-  SimuladosRoute({Key? key, required this.id, required this.title})
+  const SimuladosRoute({Key? key, required this.id, required this.title})
       : super(key: key);
 
   @override
@@ -46,7 +47,7 @@ Future<Aluno> fetchSimulados(String id) async {
     //print(jsonDecode(response.body)['notas']);
     try {
       return Aluno.fromJson(jsonDecode(response.body));
-    } catch(error) {
+    } catch (error) {
       throw Exception(error);
     }
   } else {
@@ -55,7 +56,6 @@ Future<Aluno> fetchSimulados(String id) async {
 }
 
 class _SimuladosRouteState extends State<SimuladosRoute> {
-
   int _selectedIndex = 0;
 
   late Future<Aluno> aluno;
@@ -83,44 +83,48 @@ class _SimuladosRouteState extends State<SimuladosRoute> {
               _selectedIndex = index;
             });
           },
-          items: const <BottomNavigationBarItem>[
+          items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-                icon: Icon(Icons.dashboard_rounded), label: "Notas"),
+                icon: Icon(Icons.dashboard_rounded),
+                label: AppLocalizations.of(context)!.notas),
             BottomNavigationBarItem(
-                icon: Icon(Icons.mode_edit_outline_outlined), label: "Redação"),
+                icon: Icon(Icons.mode_edit_outline_outlined),
+                label: AppLocalizations.of(context)!.redacao),
+            /* BottomNavigationBarItem(
+                icon: Icon(Icons.speed_rounded),
+                label: AppLocalizations.of(context)!.simuladorSiSU), */
             BottomNavigationBarItem(
-                icon: Icon(Icons.speed_rounded), label: "Simulador SiSU"),
-            BottomNavigationBarItem(icon: Icon(Icons.groups), label: "Ranking"),
+                icon: Icon(Icons.groups),
+                label: AppLocalizations.of(context)!.ranking),
           ]),
       body: SafeArea(
         child: Padding(
             padding: const EdgeInsets.all(20),
             child: FutureBuilder<Aluno>(
-              future: aluno,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  switch(_selectedIndex) {
-                    case 0:
-                      return NotasWidget(notas: snapshot.data!.notas);
-                    case 1:
-                      return RedacaoWidget(notas: snapshot.data!.notas);
-                    case 2:
-                      return const SimuladorWidget();
-                    case 3:
-                      return RankingWidget(ranking: snapshot.data!.ranking);
+                future: aluno,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    switch (_selectedIndex) {
+                      case 0:
+                        return NotasWidget(notas: snapshot.data!.notas);
+                      case 1:
+                        return RedacaoWidget(notas: snapshot.data!.notas);
+                      /* case 2:
+                        return const SimuladorWidget(); */
+                      case 2:
+                        return RankingWidget(ranking: snapshot.data!.ranking);
+                    }
+                    throw UnimplementedError();
+                  } else if (snapshot.hasError) {
+                    return Text('Erro: ${snapshot.error}');
+                  } else {
+                    return const Center(
+                      child: CircularProgressIndicator(
+                        color: CustomColors.orange,
+                      ),
+                    );
                   }
-                  throw UnimplementedError();
-                } else if (snapshot.hasError) {
-                  return Text('Erro: ${snapshot.error}');
-                } else {
-                  return const Center(
-                    child: CircularProgressIndicator(
-                      color: CustomColors.orange,
-                    ),
-                  );
-                }
-            })
-          ),
+                })),
       ),
     );
   }

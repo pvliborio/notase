@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:notase/utils/auth.dart';
+import 'package:notase/services/auth_service.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class GoogleSignInButton extends StatefulWidget {
-  const GoogleSignInButton({Key? key}) : super(key: key);
+  final AuthService authService;
+  const GoogleSignInButton({Key? key, required this.authService})
+      : super(key: key);
 
   @override
   _GoogleSignInButtonState createState() => _GoogleSignInButtonState();
@@ -32,20 +35,22 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
                 setState(() {
                   _isSigningIn = true;
                 });
-                Authentication auth = Authentication();
-                await auth.signInwithGoogle();
+
+                await widget.authService.signIn(context);
 
                 setState(() {
                   _isSigningIn = false;
                 });
-                  Navigator.of(context).pushNamedAndRemoveUntil("/", (route) => false);
+
+                Navigator.of(context)
+                    .pushNamedAndRemoveUntil("/", (route) => false);
               },
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const <Widget>[
+                  children: <Widget>[
                     Image(
                       image: AssetImage("assets/google_logo.png"),
                       height: 35.0,
@@ -53,7 +58,7 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
                     Padding(
                       padding: EdgeInsets.only(left: 10),
                       child: Text(
-                        'Login com o Google',
+                        AppLocalizations.of(context)!.loginComOGoogle,
                         style: TextStyle(
                           fontSize: 20,
                           color: Colors.black54,

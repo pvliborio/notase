@@ -8,6 +8,7 @@ import 'package:notase/res/custom_colors.dart';
 import 'package:notase/routes/simulados.dart';
 import 'package:notase/widgets/appbar.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomeRoute extends StatefulWidget {
   const HomeRoute({Key? key}) : super(key: key);
@@ -54,25 +55,24 @@ class _HomeRouteState extends State<HomeRoute> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: CustomColors.grey,
-      appBar: CustomAppBar("Seus Simulados"),
+      appBar: CustomAppBar(AppLocalizations.of(context)!.seusSimulados),
       body: SafeArea(
-        child: Container(
-            child: FutureBuilder<List<Simulado>>(
-              future: simulados,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return _SimuladosList(simulados: snapshot.data!);
-                } else if (snapshot.hasError) {
-                  return Text('${snapshot.error}');
-                } else {
-                  return const Center(
-                    child: CircularProgressIndicator(
-                      color: CustomColors.orange,
-                    ),
-                  );
-                }
-              },
-            )),
+        child: FutureBuilder<List<Simulado>>(
+          future: simulados,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return _SimuladosList(simulados: snapshot.data!);
+            } else if (snapshot.hasError) {
+              return Text('${snapshot.error}');
+            } else {
+              return const Center(
+                child: CircularProgressIndicator(
+                  color: CustomColors.orange,
+                ),
+              );
+            }
+          },
+        ),
       ),
     );
   }
@@ -109,7 +109,8 @@ class _SimuladosList extends StatelessWidget {
                       ),
                       const Divider(color: CustomColors.grey),
                       Text(
-                        "Realizado em ${simulados[index].date}",
+                        AppLocalizations.of(context)!
+                            .realizadoEm(simulados[index].date),
                         style: const TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: 16,
@@ -121,7 +122,9 @@ class _SimuladosList extends StatelessWidget {
                   )),
             ),
             onTap: () {
-              Navigator.of(context).pushNamed("/simulados", arguments: SimuladosArguments(simulados[index].id, simulados[index].title));
+              Navigator.of(context).pushNamed("/simulados",
+                  arguments: SimuladosArguments(
+                      simulados[index].id, simulados[index].title));
             },
           );
         });

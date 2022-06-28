@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:notase/res/custom_colors.dart';
+import 'package:notase/services/auth_service.dart';
 import 'package:notase/widgets/signin_Button.dart';
+import 'package:provider/provider.dart';
 
 class SignInRoute extends StatefulWidget {
   const SignInRoute({Key? key}) : super(key: key);
@@ -12,6 +14,8 @@ class SignInRoute extends StatefulWidget {
 class _SignInRouteState extends State<SignInRoute> {
   @override
   Widget build(BuildContext context) {
+    final AuthService _authService = Provider.of<AuthService>(context);
+
     return Scaffold(
       backgroundColor: CustomColors.orange,
       body: SafeArea(
@@ -40,7 +44,9 @@ class _SignInRouteState extends State<SignInRoute> {
                   ],
                 ),
               ),
-              GoogleSignInButton(),
+              GoogleSignInButton(
+                authService: _authService,
+              ),
             ],
           ),
         ),

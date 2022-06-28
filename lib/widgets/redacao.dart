@@ -2,86 +2,89 @@ import 'package:flutter/material.dart';
 import 'package:notase/models/AlunoNota.dart';
 import 'package:notase/res/custom_colors.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class RedacaoWidget extends StatelessWidget {
   const RedacaoWidget({Key? key, required this.notas}) : super(key: key);
 
   final AlunoNota notas;
 
-  String getCompetenciaText(String competencia, String nota) {
-    if(competencia == "c1") {
-      switch(nota) {
+  String getCompetenciaText(
+      BuildContext context, String competencia, String nota) {
+    if (competencia == "c1") {
+      switch (nota) {
         case "0":
-          return "Demonstra desconhecimento da modalidade escrita formal da língua portuguesa.";
+          return AppLocalizations.of(context)!.redacao_c1_0;
         case "40":
-          return "Demonstra domínio precário da modalidade escrita formal da língua portuguesa, de forma sistemática, com diversificados e frequentes desvios gramaticais, de escolha de registro e de convenções da escrita.";
+          return AppLocalizations.of(context)!.redacao_c1_40;
         case "80":
-          return "Demonstra domínio insuficiente da modalidade escrita formal da língua portuguesa, com muitos desvios gramaticais, de escolha de registro e de convenções da escrita.";
+          return AppLocalizations.of(context)!.redacao_c1_80;
         case "120":
-          return "Demonstra domínio mediano da modalidade escrita formal da língua portuguesa e de escolha de registro, com alguns desvios gramaticais e de convenções da escrita.";
+          return AppLocalizations.of(context)!.redacao_c1_120;
         case "160":
-          return "Demonstra bom domínio da modalidade escrita formal da língua portuguesa e de escolha de registro, com poucos desvios gramaticais e de convenções da escrita.";
+          return AppLocalizations.of(context)!.redacao_c1_160;
         case "200":
-          return "Demonstra excelente domínio da modalidade escrita formal da língua portuguesa e de escolha de registro.";
+          return AppLocalizations.of(context)!.redacao_c1_200;
       }
-    }else if(competencia == "c2") {
-      switch(nota) {
+    } else if (competencia == "c2") {
+      switch (nota) {
         case "0":
-          return "Fuga ao tema/não atendimento à estrutura dissertativo-argumentativa. Nestes casos a redação recebe nota zero e é anulada.";
+          return AppLocalizations.of(context)!.redacao_c2_0;
         case "40":
-          return "Apresenta o assunto, tangenciando o tema, ou demonstra domínio precário do texto dissertativo-argumentativo, com traços constantes de outros tipos textuais.";
+          return AppLocalizations.of(context)!.redacao_c2_40;
         case "80":
-          return "Desenvolve o tema recorrendo à cópia de trechos dos textos motivadores ou apresenta domínio insuficiente do texto dissertativo-argumentativo, não atendendo à estrutura com proposição, argumentação e conclusão.";
+          return AppLocalizations.of(context)!.redacao_c2_80;
         case "120":
-          return "Desenvolve o tema por meio de argumentação previsível e apresenta domínio mediano do texto dissertativo-argumentativo, com proposição, argumentação e conclusão.";
+          return AppLocalizations.of(context)!.redacao_c2_120;
         case "160":
-          return "Desenvolve o tema por meio de argumentação consistente e apresenta bom domínio do texto dissertativo-argumentativo, com proposição, argumentação e conclusão.";
+          return AppLocalizations.of(context)!.redacao_c2_160;
         case "200":
-          return "Desenvolve o tema por meio de argumentação consistente, a partir de um repertório sociocultural produtivo, e apresenta excelente domínio do texto dissertativo argumentativo.";
+          return AppLocalizations.of(context)!.redacao_c2_200;
       }
-    }else if(competencia == "c3") {
-      switch(nota) {
+    } else if (competencia == "c3") {
+      switch (nota) {
         case "0":
-          return "Apresenta informações, fatos e opiniões não relacionados ao tema e sem defesa de um ponto de vista.";
+          return AppLocalizations.of(context)!.redacao_c3_0;
         case "40":
-          return "Apresenta informações, fatos e opiniões pouco relacionados ao tema ou incoerentes e sem defesa de um ponto de vista.";
+          return AppLocalizations.of(context)!.redacao_c3_40;
         case "80":
-          return "Apresenta informações, fatos e opiniões relacionados ao tema, mas desorganizados ou contraditórios e limitados aos argumentos dos textos motivadores, em defesa de um ponto de vista.";
+          return AppLocalizations.of(context)!.redacao_c3_80;
         case "120":
-          return "Apresenta informações, fatos e opiniões relacionados ao tema, limitados aos argumentos dos textos motivadores e pouco organizados, em defesa de um ponto de vista.";
+          return AppLocalizations.of(context)!.redacao_c3_120;
         case "160":
-          return "Apresenta informações, fatos e opiniões relacionados ao tema, de forma organizada, com indícios de autoria, em defesa de um ponto de vista.";
+          return AppLocalizations.of(context)!.redacao_c3_160;
         case "200":
-          return "Apresenta informações, fatos e opiniões relacionados ao tema proposto, de forma consistente e organizada, configurando autoria, em defesa de um ponto de vista.";
+          return AppLocalizations.of(context)!.redacao_c3_200;
       }
-    }else if(competencia == "c4") {
-      switch(nota) {
+    } else if (competencia == "c4") {
+      switch (nota) {
         case "0":
-          return "Não articula as informações.";
+          return AppLocalizations.of(context)!.redacao_c4_0;
         case "40":
-          return "Articula as partes do texto de forma precária.";
+          return AppLocalizations.of(context)!.redacao_c4_40;
         case "80":
-          return "Articula as partes do texto, de forma insuficiente, com muitas inadequações, e apresenta repertório limitado de recursos coesivos.";
+          return AppLocalizations.of(context)!.redacao_c4_80;
         case "120":
-          return "Articula as partes do texto, de forma mediana, com inadequações, e apresenta repertório pouco diversificado de recursos coesivos.";
+          return AppLocalizations.of(context)!.redacao_c4_120;
         case "160":
-          return "Articula as partes do texto, com poucas inadequações, e apresenta repertório diversificado de recursos coesivos";
+          return AppLocalizations.of(context)!.redacao_c4_160;
         case "200":
-          return "Articula bem as partes do texto e apresenta repertório diversificado de recursos coesivos.";
+          return AppLocalizations.of(context)!.redacao_c4_200;
       }
-    }else if(competencia == "c5") {
-      switch(nota) {
+    } else if (competencia == "c5") {
+      switch (nota) {
         case "0":
-          return "Não apresenta proposta de intervenção ou apresenta proposta não relacionada ao tema ou ao assunto.";
+          return AppLocalizations.of(context)!.redacao_c5_0;
         case "40":
-          return "Apresenta proposta de intervenção vaga, precária ou relacionada apenas ao assunto.";
+          return AppLocalizations.of(context)!.redacao_c5_40;
         case "80":
-          return "Elabora, de forma insuficiente, proposta de intervenção relacionada ao tema, ou não articulada com a discussão desenvolvida no texto.";
+          return AppLocalizations.of(context)!.redacao_c5_80;
         case "120":
-          return "Elabora, de forma mediana, proposta de intervenção relacionada ao tema e articulada à discussão desenvolvida no texto.";
+          return AppLocalizations.of(context)!.redacao_c5_120;
         case "160":
-          return "Elabora bem proposta de intervenção relacionada ao tema e articulada à discussão desenvolvida no texto";
+          return AppLocalizations.of(context)!.redacao_c5_160;
         case "200":
-          return "Elabora muito bem proposta de intervenção, detalhada, relacionada ao tema e articulada à discussão desenvolvida no texto.";
+          return AppLocalizations.of(context)!.redacao_c5_200;
       }
     }
     return "";
@@ -93,10 +96,10 @@ class RedacaoWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Padding(
+          Padding(
             padding: EdgeInsets.only(bottom: 10),
             child: Text(
-              "Redação",
+              AppLocalizations.of(context)!.redacao,
               textAlign: TextAlign.left,
               style: TextStyle(
                   fontSize: 30,
@@ -126,8 +129,8 @@ class RedacaoWidget extends StatelessWidget {
           const Divider(color: CustomColors.navy),
           Row(
             children: [
-              const Text(
-                "Competência 1",
+              Text(
+                AppLocalizations.of(context)!.redacao_c1,
                 style: TextStyle(
                     color: CustomColors.navy,
                     fontSize: 20,
@@ -144,14 +147,14 @@ class RedacaoWidget extends StatelessWidget {
             ],
           ),
           Text(
-            getCompetenciaText("c1", notas.redacao.competencias.c1),
+            getCompetenciaText(context, "c1", notas.redacao.competencias.c1),
             style: const TextStyle(color: Colors.black87, fontSize: 15),
           ),
           const Divider(color: CustomColors.navy),
           Row(
             children: [
-              const Text(
-                "Competência 2",
+              Text(
+                AppLocalizations.of(context)!.redacao_c2,
                 style: TextStyle(
                     color: CustomColors.navy,
                     fontSize: 20,
@@ -168,14 +171,14 @@ class RedacaoWidget extends StatelessWidget {
             ],
           ),
           Text(
-            getCompetenciaText("c2", notas.redacao.competencias.c2),
+            getCompetenciaText(context, "c2", notas.redacao.competencias.c2),
             style: const TextStyle(color: Colors.black87, fontSize: 15),
           ),
           const Divider(color: CustomColors.navy),
           Row(
             children: [
-              const Text(
-                "Competência 3",
+              Text(
+                AppLocalizations.of(context)!.redacao_c3,
                 style: TextStyle(
                     color: CustomColors.navy,
                     fontSize: 20,
@@ -192,14 +195,14 @@ class RedacaoWidget extends StatelessWidget {
             ],
           ),
           Text(
-            getCompetenciaText("c3", notas.redacao.competencias.c3),
+            getCompetenciaText(context, "c3", notas.redacao.competencias.c3),
             style: const TextStyle(color: Colors.black87, fontSize: 15),
           ),
           const Divider(color: CustomColors.navy),
           Row(
             children: [
-              const Text(
-                "Competência 4",
+              Text(
+                AppLocalizations.of(context)!.redacao_c4,
                 style: TextStyle(
                     color: CustomColors.navy,
                     fontSize: 20,
@@ -216,14 +219,14 @@ class RedacaoWidget extends StatelessWidget {
             ],
           ),
           Text(
-            getCompetenciaText("c4", notas.redacao.competencias.c4),
+            getCompetenciaText(context, "c4", notas.redacao.competencias.c4),
             style: const TextStyle(color: Colors.black87, fontSize: 15),
           ),
           const Divider(color: CustomColors.navy),
           Row(
             children: [
-              const Text(
-                "Competência 5",
+              Text(
+                AppLocalizations.of(context)!.redacao_c5,
                 style: TextStyle(
                     color: CustomColors.navy,
                     fontSize: 20,
@@ -240,7 +243,7 @@ class RedacaoWidget extends StatelessWidget {
             ],
           ),
           Text(
-            getCompetenciaText("c5", notas.redacao.competencias.c5),
+            getCompetenciaText(context, "c5", notas.redacao.competencias.c5),
             style: const TextStyle(color: Colors.black87, fontSize: 15),
           ),
         ]);

@@ -1,16 +1,20 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:notase/res/custom_colors.dart';
-import 'package:notase/routes/home.dart';
 import 'package:notase/routes/profile.dart';
 import 'package:notase/routes/simulados.dart';
-
-import 'routes/signin.dart';
+import 'package:notase/routes/wrapper.dart';
+import 'package:notase/services/auth_service.dart';
+import 'package:notase/services/database_service.dart';
+import 'package:notase/services/notification_service.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await NotificationService().init();
+  await DatabaseService().initDB();
 
   runApp(const NotaSE());
 }
@@ -21,9 +25,7 @@ class NotaSE extends StatelessWidget {
   Route<dynamic> _getRoute(RouteSettings settings) {
     switch (settings.name) {
       case '/':
-        return _buildRoute(settings, const HomeRoute());
-      case '/signin':
-        return _buildRoute(settings, const SignInRoute());
+        return _buildRoute(settings, const WrapperRoute());
       case '/profile':
         return _buildRoute(settings, const ProfileRoute());
       case '/simulados':
@@ -44,22 +46,25 @@ class NotaSE extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'NotaSE',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-          primarySwatch: Colors.orange,
-          brightness: Brightness.dark,
-          textTheme:
-              const TextTheme(bodyText1: TextStyle(color: CustomColors.navy))),
-      initialRoute: FirebaseAuth.instance.currentUser == null ? '/signin' : '/',
-      onGenerateRoute: _getRoute,
-      // routes: {
-      //   '/': (context) => const HomeRoute(),
-      //   '/signin': (context) => const SignInRoute(),
-      //   '/profile': (context) => const ProfileRoute(),
-      //   '/simulados':(context) => const SimuladosRoute()
-      // },
+    return MultiProvider(
+      providers: [
+        Provider<AuthService>(
+          create: (context) => AuthService(),
+        )
+      ],
+      child: MaterialApp(
+        title: 'NotaSE',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+            primarySwatch: Colors.orange,
+            brightness: Brightness.dark,
+            textTheme: const TextTheme(
+                bodyText1: TextStyle(color: CustomColors.navy))),
+        initialRoute: '/',
+        onGenerateRoute: _getRoute,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+      ),
     );
   }
 }

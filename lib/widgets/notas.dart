@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:notase/models/AlunoNota.dart';
 import 'package:notase/res/custom_colors.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class NotasWidget extends StatelessWidget {
   const NotasWidget({Key? key, required this.notas}) : super(key: key);
 
@@ -13,10 +15,10 @@ class NotasWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Padding(
+          Padding(
             padding: EdgeInsets.only(bottom: 10),
             child: Text(
-              "Suas Notas",
+              AppLocalizations.of(context)!.suasNotas,
               textAlign: TextAlign.left,
               style: TextStyle(
                   fontSize: 30,
@@ -24,10 +26,10 @@ class NotasWidget extends StatelessWidget {
                   fontWeight: FontWeight.w900),
             ),
           ),
-          const Padding(
+          Padding(
             padding: EdgeInsets.only(bottom: 10),
             child: Text(
-              "TRI",
+              AppLocalizations.of(context)!.tri,
               textAlign: TextAlign.center,
               style: TextStyle(
                   fontSize: 25,
@@ -37,8 +39,8 @@ class NotasWidget extends StatelessWidget {
           ),
           Row(
             children: [
-              const Text(
-                "Linguagens e suas Tecnologias",
+              Text(
+                AppLocalizations.of(context)!.linguagens,
                 style: TextStyle(color: CustomColors.navy),
               ),
               const Spacer(),
@@ -51,8 +53,8 @@ class NotasWidget extends StatelessWidget {
           const Divider(color: CustomColors.navy),
           Row(
             children: [
-              const Text(
-                "Ciências Humanas e suas Tecnologias",
+              Text(
+                AppLocalizations.of(context)!.cienciasHumanas,
                 style: const TextStyle(color: CustomColors.navy),
               ),
               const Spacer(),
@@ -65,8 +67,8 @@ class NotasWidget extends StatelessWidget {
           const Divider(color: CustomColors.navy),
           Row(
             children: [
-              const Text(
-                "Ciências da Natureza e suas Tecnologias",
+              Text(
+                AppLocalizations.of(context)!.cienciasNatureza,
                 style: const TextStyle(color: CustomColors.navy),
               ),
               const Spacer(),
@@ -79,8 +81,8 @@ class NotasWidget extends StatelessWidget {
           const Divider(color: CustomColors.navy),
           Row(
             children: [
-              const Text(
-                "Matemática e suas Tecnologias",
+              Text(
+                AppLocalizations.of(context)!.matematica,
                 style: const TextStyle(color: CustomColors.navy),
               ),
               const Spacer(),
@@ -90,10 +92,10 @@ class NotasWidget extends StatelessWidget {
               ),
             ],
           ),
-          const Padding(
+          Padding(
             padding: EdgeInsets.only(top: 20, bottom: 10),
             child: Text(
-              "Acertos por Disciplina",
+              AppLocalizations.of(context)!.questoesCorretas,
               style: TextStyle(
                   fontSize: 25,
                   color: CustomColors.navy,
@@ -102,8 +104,8 @@ class NotasWidget extends StatelessWidget {
           ),
           Row(
             children: [
-              const Text(
-                "Linguagens e suas Tecnologias",
+              Text(
+                AppLocalizations.of(context)!.linguagens,
                 style: TextStyle(color: CustomColors.navy),
               ),
               const Spacer(),
@@ -116,8 +118,8 @@ class NotasWidget extends StatelessWidget {
           const Divider(color: CustomColors.navy),
           Row(
             children: [
-              const Text(
-                "Ciências Humanas e suas Tecnologias",
+              Text(
+                AppLocalizations.of(context)!.cienciasHumanas,
                 style: TextStyle(color: CustomColors.navy),
               ),
               const Spacer(),
@@ -130,8 +132,8 @@ class NotasWidget extends StatelessWidget {
           const Divider(color: CustomColors.navy),
           Row(
             children: [
-              const Text(
-                "Ciências da Natureza e suas Tecnologias",
+              Text(
+                AppLocalizations.of(context)!.cienciasNatureza,
                 style: const TextStyle(color: CustomColors.navy),
               ),
               const Spacer(),
@@ -144,8 +146,8 @@ class NotasWidget extends StatelessWidget {
           const Divider(color: CustomColors.navy),
           Row(
             children: [
-              const Text(
-                "Matemática e suas Tecnologias",
+              Text(
+                AppLocalizations.of(context)!.matematica,
                 style: const TextStyle(color: CustomColors.navy),
               ),
               const Spacer(),
